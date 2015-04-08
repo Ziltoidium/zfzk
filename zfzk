@@ -1,0 +1,35 @@
+#!/bin/bash
+
+#Anzahl der Kerne festlegen
+CORES=2
+
+#zur Verfuegung gestellter RAM
+RAM=2000
+
+#Kontrastreiches Design
+TYPFILE=contrast.TYP
+
+#Nummer fuer DE
+MAPID=6276
+MAPNAME=DE
+
+#Nummer fuer NRW
+#MAPID=5819
+#MAPNAME=NRW
+
+#Muenster
+#MAPID=5844
+#MAPNAME=Muenster
+
+#Mail recipient
+RECIPIENT=priv@oliverritter.com
+
+#Die Option Kulturland sorgt für braune Ackerflaechen auf dem Garmin
+echo "Erstelle Karten mit MAPID $MAPID und $CORES cores und $RAM ram…"
+
+./mt.pl -cores=$CORES -ram=$RAM -typfile=$TYPFILE bim $MAPID DKULTURLAND
+
+./mt.pl -cores=$CORES -ram=$RAM -typfile=$TYPFILE bam $MAPID DKULTURLAND
+
+echo "Finished compiling the map, sending mail"
+echo "Freizeitkarte $MAPNAME mit ID $MAPID ist fertig" | mail -s "Freizeitkarte $MAPNAME ist fertig"  "priv@oliverritter.com"
